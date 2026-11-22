@@ -1,0 +1,54 @@
+package Algorithms;
+
+import Structures.CustomHeap; 
+import Utils.DataGenerator;
+
+public class HeapSort {
+
+    
+    public void sort(int[] arr) {
+        
+        CustomHeap heap = new CustomHeap();
+
+        
+        for (int num : arr) {
+            heap.insert(num);
+        }
+
+       
+        for (int i = arr.length - 1; i >= 0; i--) {
+            arr[i] = heap.extractMax();
+        }
+    }
+
+   
+    public static void main(String[] args) {
+        int N = 100000;
+        HeapSort sorter = new HeapSort();
+        
+        String[] scenarios = {"Random", "Opposite", "Sorted"};
+
+        System.out.println("=== HEAP SORT PERFORMANCE TEST ===");
+
+        for (String type : scenarios) {
+            int[] arr;
+            
+            
+            switch(type) {
+                case "Random": arr = DataGenerator.generateRand(N); break;
+                case "Opposite": arr = DataGenerator.generateOpposite(N); break;
+                case "Sorted": arr = DataGenerator.generateSorted(N); break;
+                default: continue;
+            }
+
+            System.out.print(type + " data sorting... ");
+            
+            long start = System.nanoTime();
+            sorter.sort(arr);
+            long end = System.nanoTime();
+
+            double timeMs = (end - start) / 1_000_000.0;
+            System.out.printf("Done! Time: %.2f ms%n", timeMs);
+        }
+    }
+}
